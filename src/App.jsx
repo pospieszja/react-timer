@@ -23,7 +23,7 @@ function App() {
       clearInterval(interval);
       window.removeEventListener('keydown', handleKeyDown);
     }
-  },[paused,editing,showCursor]);
+  },[paused, editing, showCursor]);
 
   const tick = () => {
     if (editing === '') {
@@ -41,8 +41,8 @@ function App() {
   }  
 
   const pauseTimer = () => {
-    console.log(paused);
     setPaused(paused => !paused)
+    setEditing('');
   } 
 
   const toggleEditing = () => {
@@ -50,14 +50,13 @@ function App() {
   }  
 
   const handleCursorMove = (direction) => {
-    //setPaused(true);
+    setPaused(true);
     switch (direction) {
       case 'up':
       case 'down':
         if (editing == '') {
-          setEditing('minute');
+          setEditing('second');
         }
-        console.log(editing);
         setTime(time => time + (direction === 'up' ? 1 : -1) * (editing === 'second' ? 1 : 60));
         break;
       case 'left':
@@ -88,7 +87,7 @@ function App() {
         handleCursorMove(event.key.toLowerCase().replace('arrow', ''))
         break;
       case 'Enter':
-        //toggleEditing();
+        toggleEditing();
         break;
       case ' ':
         pauseTimer();
