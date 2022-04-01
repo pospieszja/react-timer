@@ -6,7 +6,7 @@ function App() {
   const [time, setTime] = useState(1800);
   const [paused, setPaused] = useState(true);
   const [fullscreen, setFullscreen] = useState(false);
-  const [editing, setEditing] = useState(null);
+  const [editing, setEditing] = useState('');
   const [showCursor, setShowCursor] = useState(false);
 
   const pad = (n) => (Math.abs(n) < 10)? `0${Math.abs(n)}` : Math.abs(n);
@@ -23,10 +23,10 @@ function App() {
       clearInterval(interval);
       window.removeEventListener('keydown', handleKeyDown);
     }
-  },[]);
+  },[paused,editing,showCursor]);
 
   const tick = () => {
-    if (!editing) {
+    if (editing === '') {
       setShowCursor(showCursor => !showCursor);
     }
 
@@ -41,23 +41,23 @@ function App() {
   }  
 
   const pauseTimer = () => {
-    setPaused(paused => !paused);
-    setEditing(false);
+    console.log(paused);
+    setPaused(paused => !paused)
   } 
 
   const toggleEditing = () => {
-    setEditing(editing => editing ? null : 'second');
+    setEditing(editing => editing ? '' : 'second');
   }  
 
   const handleCursorMove = (direction) => {
-    setPaused(true);
+    //setPaused(true);
     switch (direction) {
       case 'up':
       case 'down':
-        if (!editing) {
-          setEditing('second');
+        if (editing == '') {
+          setEditing('minute');
         }
-        console.log(direction + " " + editing);
+        console.log(editing);
         setTime(time => time + (direction === 'up' ? 1 : -1) * (editing === 'second' ? 1 : 60));
         break;
       case 'left':
@@ -88,7 +88,7 @@ function App() {
         handleCursorMove(event.key.toLowerCase().replace('arrow', ''))
         break;
       case 'Enter':
-        toggleEditing();
+        //toggleEditing();
         break;
       case ' ':
         pauseTimer();
