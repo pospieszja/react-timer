@@ -23,7 +23,7 @@ function App() {
       clearInterval(interval);
       window.removeEventListener('keydown', handleKeyDown);
     }
-  },[paused, editing, showCursor]);
+  },[paused, editing, showCursor, fullscreen]);
 
   const tick = () => {
     if (editing === '') {
@@ -33,6 +33,17 @@ function App() {
     if (paused) return;
 
     setTime(time => time - 1);
+  }
+
+  const toggleFullScreen = () => {
+    if (!fullscreen) {
+      document.documentElement.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen(); 
+      }
+    }
+    setFullscreen(fullscreen=>!fullscreen);
   }
 
   const resetTimer = () => {
@@ -74,7 +85,7 @@ function App() {
     switch (event.key) {
       case 'F':
       case 'f':
-        //toggleFullScreen();
+        toggleFullScreen();
         break;
       case 'R':
       case 'r':
