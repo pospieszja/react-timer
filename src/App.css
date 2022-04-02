@@ -39,12 +39,12 @@ body {
   color: white;
   font-family: Geneva, Tahoma, sans-serif;
 }
-.clock.show-cursor .time.editing {
+.time.editing {
   background: #666;
 }
 
-.minusSign {
-  color: red;
+.red-clock {
+  color: rgb(255,153,153);
 }
 
 .tips {

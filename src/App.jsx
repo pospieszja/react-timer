@@ -7,7 +7,7 @@ function App() {
   const [paused, setPaused] = useState(true);
   const [fullscreen, setFullscreen] = useState(false);
   const [editing, setEditing] = useState('');
-  const [showCursor, setShowCursor] = useState(false);
+  const [isEndOfTime, setIsEndOfTime] = useState(false);
 
   const pad = (n) => (Math.abs(n) < 10)? `0${Math.abs(n)}` : Math.abs(n);
 
@@ -23,13 +23,9 @@ function App() {
       clearInterval(interval);
       window.removeEventListener('keydown', handleKeyDown);
     }
-  },[paused, editing, showCursor, fullscreen]);
+  },[paused, editing, fullscreen]);
 
   const tick = () => {
-    if (editing === '') {
-      setShowCursor(showCursor => !showCursor);
-    }
-
     if (paused) return;
 
     setTime(time => time - 1);
@@ -39,7 +35,7 @@ function App() {
     if (!fullscreen) {
       document.documentElement.requestFullscreen();
     } else {
-      if (document.exitFullscreen) {
+      if (document.fullscreenEnabled) {
         document.exitFullscreen(); 
       }
     }
@@ -111,7 +107,7 @@ function App() {
   return (
     <div className="App">
  <div
-          className={clsx('clock', { 'show-cursor': showCursor })}
+          className={clsx('clock', { 'red-clock': time < 0 })}
           onDoubleClick={() => resetTimer}
         >
           <span className={clsx('time minute', { editing: editing === 'minute' })}>{pad(minute)}</span>
